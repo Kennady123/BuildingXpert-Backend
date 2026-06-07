@@ -4,11 +4,8 @@ from pydantic import BaseModel
 import requests
 import os
 import json
-from dotenv import load_dotenv
 from datetime import datetime
 import pytz
-
-
 
 app = FastAPI(
     docs_url=None,
@@ -40,7 +37,13 @@ class EnquiryForm(BaseModel):
     service: str
     message: str = "No message"
 
-
+@app.get("/")
+def root():
+    return {
+        "status": "Meta WhatsApp Backend Running",
+        "token_loaded": bool(ACCESS_TOKEN),
+        "phone_loaded": bool(PHONE_NUMBER_ID)
+    }
 
 @app.post("/send-enquiry")
 def send_enquiry(form: EnquiryForm):
@@ -48,7 +51,7 @@ def send_enquiry(form: EnquiryForm):
     if not ACCESS_TOKEN:
         raise HTTPException(
             status_code=500,
-            detail="WHATSAPP_TOKEN missing in .env"
+            detail="WHATSAPP_TOKEN missing"
         )
 
     ist = pytz.timezone("Asia/Kolkata")
@@ -98,12 +101,9 @@ def send_enquiry(form: EnquiryForm):
 
     return {
         "success": True,
-        "results": results
-    }
-@app.get("/")
-def root():
-    return {
-        "status": "Meta WhatsApp Backend Running",
-        "token_loaded": bool(ACCESS_TOKEN),
-        "phone_loaded": bool(PHONE_NUMBER_ID)
+        "results": results,
+        "debug": {
+            "graph_url": GRAPH_URL,
+            "token_first10": ACCESS_TOKEN[:10] if ACCESS_TOKEN else None
+        }
     }
