@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from datetime import datetime
 import pytz
 
-load_dotenv()
+
 
 app = FastAPI(
     docs_url=None,
@@ -40,11 +40,7 @@ class EnquiryForm(BaseModel):
     service: str
     message: str = "No message"
 
-@app.get("/")
-def root():
-    return {
-        "status": "Meta WhatsApp Backend Running"
-    }
+
 
 @app.post("/send-enquiry")
 def send_enquiry(form: EnquiryForm):
@@ -103,4 +99,11 @@ def send_enquiry(form: EnquiryForm):
     return {
         "success": True,
         "results": results
+    }
+@app.get("/")
+def root():
+    return {
+        "status": "Meta WhatsApp Backend Running",
+        "token_loaded": bool(ACCESS_TOKEN),
+        "phone_loaded": bool(PHONE_NUMBER_ID)
     }
