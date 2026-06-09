@@ -12,10 +12,13 @@ app = FastAPI(
     redoc_url=None,
     openapi_url=None
 )
-
+origins=[
+    'https://buildingxpert.netlify.app/',
+    'https://buildingxpert.in/',
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )
