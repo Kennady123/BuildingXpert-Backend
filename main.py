@@ -68,7 +68,7 @@ def send_enquiry(form: EnquiryForm):
             "type": "template",
             "template": {
                 "name": "enquiry_notification",
-                "language": {"code": "en_US"},
+                "language": {"code": "en"},
                 "components": [
                     {
                         "type": "body",
