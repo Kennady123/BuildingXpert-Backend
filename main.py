@@ -73,11 +73,11 @@ def send_enquiry(form: EnquiryForm):
                     {
                         "type": "body",
                         "parameters": [
-                            {"type": "text", "parameter_name": "name", "text": form.name},
-                            {"type": "text", "parameter_name": "phone", "text": form.phone},
-                            {"type": "text", "parameter_name": "service", "text": form.service},
-                            {"type": "text", "parameter_name": "area", "text": form.area},
-                            {"type": "text", "parameter_name": "message", "text": form.message},
+                            {"type": "text", "parameter_name": "name", "text": form.name or "N/A"},
+                            {"type": "text", "parameter_name": "phone", "text": form.phone or "N/A"},
+                            {"type": "text", "parameter_name": "service", "text": form.service or "N/A"},
+                            {"type": "text", "parameter_name": "area", "text": form.area or "Not specified"},
+                            {"type": "text", "parameter_name": "message", "text": form.message or "No message"},
                             {"type": "text", "parameter_name": "time", "text": time_now}
                         ]
                     }
@@ -90,7 +90,7 @@ def send_enquiry(form: EnquiryForm):
             data=json.dumps(payload),
             headers=headers
         )
-        print(f"Meta Response: {response.status_code} - {response.text}")  # DEBUG LINE
+        print(f"Meta Response: {response.status_code} - {response.text}")
         results.append({
             "recipient": recipient,
             "status": response.status_code,
