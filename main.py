@@ -90,6 +90,7 @@ def send_enquiry(form: EnquiryForm):
             data=json.dumps(payload),
             headers=headers
         )
+        print(f"Meta Response: {response.status_code} - {response.text}")  # DEBUG LINE
         results.append({
             "recipient": recipient,
             "status": response.status_code,
